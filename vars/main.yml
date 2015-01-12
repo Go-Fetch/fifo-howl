@@ -1,0 +1,7 @@
+---
+# Kevin M. Meziere <kmeziere@jpcatholic.com>
+# Copyright 2015, John Paul the Great Catholic University
+
+howl_release:"dev"
+howl_version_required: "fifo-howl-0.6.1pre20150108T154619Z"
+howl_cookie: "{{howl_cookie}}"

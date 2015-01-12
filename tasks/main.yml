@@ -1,0 +1,21 @@
+---
+# Kevin M. Meziere <kmeziere@jpcatholic.com>
+# Copyright 2015, John Paul the Great Catholic University
+
+- name: Lookup version of Howl
+  shell: pkgin list | grep fifo-howl | awk '{print $1}'
+  register: howl_version_installed
+  changed_when: howl_version_installed.stdout != '{{howl_version_required}}'
+  ignore_errors: True
+
+- name: Install/Upgrade Howl
+  command: pkg_add -u http://release.project-fifo.net/pkg/'{{howl_release}}'/'{{howl_version_required}}'.tgz 
+  when: howl_version_installed.stdout != '{{howl_version_required}}'
+
+- name: Configure Howl
+  template: src=howl-config.j2 dest=/opt/local/fifo-howl/etc/howl.conf backup=yes
+  notify: Bounce Howl
+
+- name: Enable Howl
+  service: name=howl state=started enabled=yes
+  when: "'howl_no_start' not in group_names"
