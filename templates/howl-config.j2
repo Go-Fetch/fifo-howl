@@ -606,6 +606,6 @@ snmp.config_dir = snmp/conf/
 snmp.data_dir = /var/db/howl
 
 
-{% if ansible_fqdn in groups['no_howl_mdns'] %}
+{% if 'no_howl_mdns' in group_names %}
 mdns.server = disabled
 {% endif %}

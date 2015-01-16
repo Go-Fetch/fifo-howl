@@ -4,4 +4,4 @@
 
 - name: Bounce Howl
   service: name=howl state=restarted enabled=yes
-  when: "'howl_no_start' not in group_names"
+  when: "'howl_no_start' not in {{ group_names }}"
