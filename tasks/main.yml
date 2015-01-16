@@ -16,6 +16,10 @@
   template: src=howl-config.j2 dest=/opt/local/fifo-howl/etc/howl.conf backup=yes
   notify: Bounce Howl
 
+- name: Enable EPMD
+  service: name=epmd state=started enabled=yes
+  when: "'howl_no_start' not in {{ group_names }}"
+
 - name: Enable Howl
   service: name=howl state=started enabled=yes
   when: "'howl_no_start' not in {{ group_names }}"
