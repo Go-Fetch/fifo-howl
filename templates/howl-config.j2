@@ -1,18 +1,42 @@
-## Number of acceptor processes to keep around for websocket connections.
+## Number of acceptors processes to keep around for websocket connections.
 ## 
 ## Default: 100
 ## 
 ## Acceptable values:
 ##   - an integer
-accpetors = 100
+acceptors = 100
 
 ## The port howl listens on for websockets
 ## 
-## Default: 8081
+## Default: 80
 ## 
 ## Acceptable values:
 ##   - an integer
-http_port = 8081
+http_port = 80
+
+## Enable or disable compression
+## 
+## Default: on
+## 
+## Acceptable values:
+##   - on or off
+compression = on
+
+## Enable or disable SSL compression
+## 
+## Default: on
+## 
+## Acceptable values:
+##   - one of: on, off, spdy
+ssl = on
+
+## The port howl listens to.
+## 
+## Default: 443
+## 
+## Acceptable values:
+##   - an integer
+ssl.port = 443
 
 ## The TCP endpoint that will be broadcasted.
 ## 
@@ -75,6 +99,391 @@ service = howl
 ## Acceptable values:
 ##   - an integer
 ## w = 3
+
+## Schema directory
+## 
+## Default: ./share/schema
+## 
+## Acceptable values:
+##   - text
+schema_dir = ./share/schema
+
+## If the ui_path is specified the content of this path will
+## be served at the root directory.
+## 
+## Default: /opt/local/fifo-cerberus
+## 
+## Acceptable values:
+##   - the path to a directory
+ui_path = /opt/local/fifo-cerberus
+
+## The TCP IP that mdns messages arrive to.
+## 
+## Default: 127.0.0.1
+## 
+## Acceptable values:
+##   - text
+listening_ip = 127.0.0.1
+
+## Wiggle allows caching of objects, please be aware
+## that caching data will increase the chacne of stale data.
+## However it can increase performance significantly. Different
+## objects have different 'lifetimes' so different timeouts
+## apply. Setting the timeout to 0 will disable caching.
+## However stale data served by wiggle does NOT mean stale data
+## within FiFo.
+## Wiggle will automatically invalidate the cache when a action is taken
+## that means when someone changes a setting it should be directy reflectd.
+## A two tier cache is used and works the following way:
+## * Items requested within the timeframe of the L1 TTL will be served
+## directly from the cache.
+## * Items requested within the timeframe of the L2 TTL are served
+## from the cache once but invalidated and the cache asyncrounously
+## updated.
+## * Itemsrequested after the L2 TTL are invalidated emediately and fetched
+## anew.
+## 
+## Default: off
+## 
+## Acceptable values:
+##   - on or off
+caching = off
+
+## The time how long permissions for a token are cached,
+## this seriously improves quick successive requests.
+## 
+## Default: 1s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.token.l1 = 1s
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.token.l2 = 1m
+
+## Packages pretty much never change so a high TTL is possible.
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.package.l1 = 1m
+
+## 
+## Default: 10m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.package.l2 = 10m
+
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.package.l1 = 10s
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.package.l2 = 1m
+
+## Datasets pretty much never change so a high TTL is possible.
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.dataset.l1 = 1m
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.dataset.l2 = 1m
+
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.dataset.l1 = 10s
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.dataset.l2 = 1m
+
+## DTrace Scripts pretty much never change so a high TTL is possible.
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.dtrace.l1 = 1m
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.dtrace.l2 = 1m
+
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.dtrace.l1 = 10s
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.dtrace.l2 = 1m
+
+## Chunter updates services every 10s by default setting the TTL
+## to X means stale service state will be 10s+X (i.e. 20s)
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.hypervisor.l1 = 10s
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.hypervisor.l2 = 1m
+
+## 
+## Default: 1s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.hypervisor.l1 = 1s
+
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.hypervisor.l2 = 10s
+
+## IPranges only change when a Ip was claimed some delay is accaptable here
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.iprange.l1 = 10s
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.iprange.l2 = 1m
+
+## 
+## Default: 1s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.iprange.l1 = 1s
+
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.iprange.l2 = 10s
+
+## Networks barely ever change
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.network.l1 = 1m
+
+## 
+## Default: 10m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.network.l2 = 10m
+
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.network.l1 = 10s
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.network.l2 = 1m
+
+## Orgs barely ever change too
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.org.l1 = 1m
+
+## 
+## Default: 10m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.org.l2 = 10m
+
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.org.l1 = 10s
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.org.l2 = 1m
+
+## Roles barely ever change too
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.role.l1 = 1m
+
+## 
+## Default: 10m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.role.l2 = 10m
+
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.role.l1 = 10s
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.role.l2 = 1m
+
+## Users barely change either
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.user.l1 = 1m
+
+## 
+## Default: 10m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.user.l2 = 10m
+
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.user.l1 = 10s
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.user.l2 = 1m
+
+## VMs can change rather frequently so we don't cache them by default
+## 
+## Default: 0.1s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.vm.l1 = 0.1s
+
+## 
+## Default: 5s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.vm.l2 = 5s
+
+## 
+## Default: 0.1s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.vm.l1 = 0.1s
+
+## 
+## Default: 1s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.vm.l2 = 1s
+
+## Groupings change sometimes so we can't have a long TTL
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.grouping.l1 = 10s
+
+## 
+## Default: 1m
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.element.grouping.l2 = 1m
+
+## 
+## Default: 1s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.grouping.l1 = 1s
+
+## 
+## Default: 10s
+## 
+## Acceptable values:
+##   - a time duration with units, e.g. '10s' for 10 seconds
+ttl.list.grouping.l2 = 10s
 
 ## Name of the Erlang node
 ## 
@@ -213,7 +622,7 @@ anti_entropy.bloomfilter = on
 ## if you plan to expand your system please set it higher and reads
 ## the manual at http://bit.ly/1ciKRkS
 ## 
-## Default: 8
+## Default: 64
 ## 
 ## Acceptable values:
 ##   - an integer
@@ -227,26 +636,38 @@ anti_entropy.bloomfilter = on
 ##   - an integer
 ## transfer_limit = 2
 
-## Default cert location for https can be overridden
-## with the ssl config variable, for example:
+## The SSL Server certificate
+## 
+## Default: /var/db/fifo/fifo.pem
 ## 
 ## Acceptable values:
-##   - the path to a file
-## ssl.certfile = $(platform_etc_dir)/cert.pem
+##   - text
+ssl.certfile = /var/db/fifo/fifo.pem
 
-## Default key location for https can be overridden with the ssl
-## config variable, for example:
+## The SSL Key file
+## 
+## Default: /var/db/fifo/fifo.key
 ## 
 ## Acceptable values:
-##   - the path to a file
-## ssl.keyfile = $(platform_etc_dir)/key.pem
+##   - text
+ssl.keyfile = /var/db/fifo/fifo.key
 
-## Default signing authority location for https can be overridden
-## with the ssl config variable, for example:
+## The SSL CA certificate.
+## 
+## Default: /var/db/fifo/fifo.crt
 ## 
 ## Acceptable values:
-##   - the path to a file
-## ssl.cacertfile = $(platform_etc_dir)/cacertfile.pem
+##   - text
+ssl.cacertfile = /var/db/fifo/fifo.crt
+
+## handoff.ip is the network address that Riak binds to for
+## intra-cluster data handoff.
+## 
+## Default: 127.0.0.1
+## 
+## Acceptable values:
+##   - text
+handoff.ip = 127.0.0.1
 
 ## DTrace support Do not enable 'dtrace' unless your Erlang/OTP
 ## runtime is compiled to support DTrace.  DTrace is available in
@@ -311,6 +732,13 @@ platform_log_dir = /var/log/howl
 ## console : standard out
 ## both : log.console.file and standard out.
 ## 
+## Default: howl
+## 
+## Acceptable values:
+##   - text
+log.service = howl
+
+## 
 ## Default: file
 ## 
 ## Acceptable values:
@@ -373,19 +801,45 @@ log.watchdog.level = error
 ##   - text
 log.watchdog.cluster = fifo
 
-## the log level of the watchdog log
-## 
-## Default: howl
-## 
-## Acceptable values:
-##   - text
-log.watchdog.service = howl
-
 ## The ip of the watchdog server
 ## 
 ## Acceptable values:
 ##   - an IP/port pair, e.g. 127.0.0.1:10011
 ## log.watchdog.host.name = 127.0.0.1:4444
+
+## The ip of the graylog server
+## 
+## Default: off
+## 
+## Acceptable values:
+##   - an IP/port pair, e.g. 127.0.0.1:10011
+##   - the text "off"
+## log.graylog.host = 127.0.0.1:12201
+
+## the log level of the graylog log
+## 
+## Default: info
+## 
+## Acceptable values:
+##   - one of: debug, info, warning, error
+log.graylog.level = info
+
+## The ip of the graylog server
+## 
+## Default: off
+## 
+## Acceptable values:
+##   - an IP/port pair, e.g. 127.0.0.1:10011
+##   - the text "off"
+## log.logstash.host = 127.0.0.1:9125
+
+## the log level of the graylog log
+## 
+## Default: info
+## 
+## Acceptable values:
+##   - one of: debug, info, warning, error
+log.logstash.level = info
 
 ## Whether to write a crash log, and where.
 ## Commented/omitted/undefined means no crash logger.
@@ -449,13 +903,103 @@ log.error.redirect = on
 ##   - an integer
 log.error.messages_per_second = 100
 
-## Enable or disable the DalmatinerDB Folsom storage.
+## The default realm to use for snarl calls.
 ## 
-## Default: false
+## Default: default
 ## 
 ## Acceptable values:
-##   - true or false
-## folsom_ddb.enabled = false
+##   - text
+libsnarl.realm = default
+
+## Fetcher configurations
+## 
+## Default: 10
+## 
+## Acceptable values:
+##   - an integer
+upload.pool_size = 10
+
+## 
+## Default: 15
+## 
+## Acceptable values:
+##   - an integer
+upload.pool_max = 15
+
+## 
+## Default: 3
+## 
+## Acceptable values:
+##   - an integer
+upload.retry = 3
+
+## 
+## Default: 10
+## 
+## Acceptable values:
+##   - an integer
+download.pool_size = 10
+
+## 
+## Default: 15
+## 
+## Acceptable values:
+##   - an integer
+download.pool_max = 15
+
+## 
+## Default: 10
+## 
+## Acceptable values:
+##   - an integer
+download.preload_chunks = 10
+
+## 
+## Default: 3
+## 
+## Acceptable values:
+##   - an integer
+download.retry = 3
+
+## The TCP endpoint for the backend server.
+## 
+## Default: 127.0.0.1:5555
+## 
+## Acceptable values:
+##   - an IP/port pair, e.g. 127.0.0.1:10011
+backend_server = 127.0.0.1:5555
+
+## Initial number of conneciton pool workers
+## 
+## Default: 20
+## 
+## Acceptable values:
+##   - an integer
+pool.size = 20
+
+## Maximum number of conneciton pool workers
+## 
+## Default: 50
+## 
+## Acceptable values:
+##   - an integer
+pool.max = 50
+
+## The chunk size used to read from the backend.
+## 
+## Default: 100000
+## 
+## Acceptable values:
+##   - an integer
+chunk = 100000
+
+## Maximum length for a single query
+## 
+## Default: 1209600
+## 
+## Acceptable values:
+##   - an integer
+max_read = 1209600
 
 ## The DalmatinerDB backend ip and port.
 ## 
@@ -463,7 +1007,7 @@ log.error.messages_per_second = 100
 ## 
 ## Acceptable values:
 ##   - an IP/port pair, e.g. 127.0.0.1:10011
-## folsom_ddb.ip = 127.0.0.1:4444
+## folsom_ddb.ip = 127.0.0.1:5555
 
 ## The bucket to store folsom data in.
 ## 
@@ -474,13 +1018,13 @@ log.error.messages_per_second = 100
 folsom_ddb.bucket = fifo
 
 ## The prefix that is added to each metric, in total the metric
-## will be contructed <PREFIX>.<Metric Path>
+## will be contructed [<PREFIX> | <Metric Path>]
 ## 
-## Default: sniffle
+## Default: howl
 ## 
 ## Acceptable values:
 ##   - text
-folsom_ddb.prefix = sniffle
+folsom_ddb.prefix = howl
 
 ## The approximitely send buffer size, please keep in mind that it is
 ## not a hard limit so select it a decent bit over the receive buffer of
@@ -509,6 +1053,23 @@ folsom_ddb.interval = 1s
 ## Acceptable values:
 ##   - true or false
 folsom_ddb.vm_metrics = false
+
+## The place the SNMP agent looks for it's configuration.
+## 
+## Default: snmp/conf/
+## 
+## Acceptable values:
+##   - text
+snmp.config_dir = snmp/conf/
+
+## This is where the SNMP related databases and data gets
+## stored, it must be writable for the process.
+## 
+## Default: /var/db/howl
+## 
+## Acceptable values:
+##   - text
+snmp.data_dir = /var/db/howl
 
 ## Domain this listener is listening to.
 ## 
@@ -587,24 +1148,6 @@ mdns.client.pool.initial = 5
 ## Acceptable values:
 ##   - an integer
 mdns.client.pool.max = 5
-
-## The place the SNMP agent looks for it's configuration.
-## 
-## Default: snmp/conf/
-## 
-## Acceptable values:
-##   - text
-snmp.config_dir = snmp/conf/
-
-## This is where the SNMP related databases and data gets
-## stored, it must be writable for the process.
-## 
-## Default: /var/db/howl
-## 
-## Acceptable values:
-##   - text
-snmp.data_dir = /var/db/howl
-
 
 {% if 'no_howl_mdns' in group_names %}
 mdns.server = disabled
