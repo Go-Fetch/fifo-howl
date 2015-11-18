@@ -123,7 +123,7 @@ ui_path = /opt/local/fifo-cerberus
 ## 
 ## Acceptable values:
 ##   - text
-listening_ip = 127.0.0.1
+listening_ip = {{ ansible_default_ipv4['address'] }}
 
 ## Wiggle allows caching of objects, please be aware
 ## that caching data will increase the chacne of stale data.
@@ -667,7 +667,7 @@ ssl.cacertfile = /var/db/fifo/fifo.crt
 ## 
 ## Acceptable values:
 ##   - text
-handoff.ip = 127.0.0.1
+handoff.ip = {{ ansible_default_ipv4['address'] }}
 
 ## DTrace support Do not enable 'dtrace' unless your Erlang/OTP
 ## runtime is compiled to support DTrace.  DTrace is available in
